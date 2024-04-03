@@ -1,8 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
-link = 'https://knastu.ru/students/schedule/ca5ea85f-3881-47c8-9cdc-fda4e4dd44ff'
 
-def sheduleParse(link):
+
+def sсheduleParse():
+    link = 'https://knastu.ru/students/schedule/ca5ea85f-3881-47c8-9cdc-fda4e4dd44ff'
     responce = requests.get(link).text
     soup = BeautifulSoup(responce, 'lxml')
     block_date = soup.find('div', id = 'div_visualdate')
@@ -12,7 +13,7 @@ def sheduleParse(link):
 
     block_shedule = soup.find_all('td', title = 'Выбранная дата')
     chek_shedule = [block_shedule[i].text for i in range(0, len(block_shedule) - 1)]
-    result_shedule = f'{check_date}\n'
+    result_shedule = f'{check_date}📅\n'
     for i in range(0, len(chek_shedule) - 1):
         if 'Лекции' in chek_shedule[i]:
             chek_shedule[i] = str(chek_shedule[i]).replace('Лекции', ' Лекции ')
@@ -27,8 +28,6 @@ def sheduleParse(link):
         if 'Лабораторные работы (УГ-6_ЛР)' in chek_shedule[i]:
             chek_shedule[i] = str(chek_shedule[i]).replace('Лабораторные работы (УГ-6_ЛР)', ' Лабораторные работы (УГ-6_ЛР) ')
         chek_shedule[i] = str(chek_shedule[i]).replace('?', '')
-        result_shedule += chek_shedule[i] + '\n'
-
-
+        result_shedule += f"{i + 1} пара: " + chek_shedule[i] + '\n'
     return  result_shedule
-result_shedule = sheduleParse(link)
+
