@@ -23,6 +23,7 @@ schedule_today = """
 
 if today != new_today:
     schedule_today = sсheduleParse()
+    today = new_today
 
 #список кнопок
 def keyboard():
